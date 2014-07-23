@@ -1,12 +1,12 @@
 package main
 
 import (
-	"code.google.com/p/rsc/qr"
 	"fmt"
+	"github.com/liulixiang1988/qr"
 	"image"
 	"image/draw"
 	"image/png"
-	//"io/ioutil"
+	"io/ioutil"
 	"log"
 	"os"
 )
@@ -18,11 +18,12 @@ func main() {
 		fmt.Println(err)
 		log.Fatalln(err)
 	}
-	// png_img := code.PNG()
-	// err = ioutil.WriteFile("fubao.png", png_img, 0666)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
+	fmt.Println("code info:", code.Size, code.Scale)
+	png_img := code.PNG()
+	err = ioutil.WriteFile("fubao1.png", png_img, 0666)
+	if err != nil {
+		fmt.Println(err)
+	}
 	img := code.Image()
 
 	f, err := os.Open("head.png")
@@ -33,13 +34,14 @@ func main() {
 	defer f.Close()
 
 	bounds := img.Bounds()
+	fmt.Println(bounds.Dx(), bounds.Dy())
 	matrix := image.NewNRGBA(bounds)
 
 	offsets := image.Pt(
 		(img.Bounds().Dx()-head_img.Bounds().Dx())/2,
 		(img.Bounds().Dy()-head_img.Bounds().Dy())/2)
-
-	draw.Draw(matrix, bounds, img, image.ZP, draw.Src)
+	fmt.Println(img.Bounds().Dx(), img.Bounds().Dy())
+	draw.Draw(matrix, img.Bounds(), img, image.ZP, draw.Src)
 	draw.Draw(matrix, head_img.Bounds().Add(offsets), head_img, image.ZP, draw.Over)
 
 	result_img, _ := os.Create("fubao.png")

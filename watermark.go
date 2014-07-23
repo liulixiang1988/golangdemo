@@ -16,13 +16,23 @@ import (
 
 func main() {
 	//原始图片是sam.jpg
-	imgb, _ := os.Open("sam.jpg")
-	img, _ := jpeg.Decode(imgb)
+	imgb, err := os.Open("origin.jpg")
+	if err != nil {
+		fmt.Println("open error:", err)
+		return
+	}
+	img, err := jpeg.Decode(imgb)
+	if err != nil {
+		fmt.Println("jpg decode error:", err)
+		return
+	}
 	defer imgb.Close()
+	fmt.Println(img.Bounds().Dx(), img.Bounds().Dy())
 
-	wmb, _ := os.Open("text.png")
+	wmb, _ := os.Open("head.png")
 	watermark, _ := png.Decode(wmb)
 	defer wmb.Close()
+	fmt.Println(watermark.Bounds().Dx(), watermark.Bounds().Dy())
 
 	//把水印写到右下角，并向0坐标各偏移10个像素
 	offset := image.Pt(img.Bounds().Dx()-watermark.Bounds().Dx()-10, img.Bounds().Dy()-watermark.Bounds().Dy()-10)
