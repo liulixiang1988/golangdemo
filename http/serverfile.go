@@ -50,6 +50,7 @@ func SaveFile(w http.ResponseWriter, req *http.Request) {
 				status = http.StatusInternalServerError
 				return
 			}
+			defer infile.Close()
 
 			//创建文件用来存储
 			var outfile *os.File
