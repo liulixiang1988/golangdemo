@@ -16,3 +16,28 @@ Thread VS Goroutine:
     - Java Thread是1：1
     - Goroutine是M：N
     
+## 2. 共享内存机制
+
+传统方式，后续使用csp，但是这个也要了解
+
+```go
+sync.Mutex
+sync.RWLock
+```
+
+类似Java
+```java
+Lock lock = ...;
+lock.lock();
+try{
+    //thread safe
+} catch (Exception ex) {
+
+} finally {
+    lock.unlock();
+}
+
+```
+
+## 3. CSP并发机制
+

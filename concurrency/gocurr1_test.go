@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-// TestGoroutine 使用测试
+// TestGoroutine goroutine与waitgroup
 func TestGoroutine(t *testing.T) {
 	var wg sync.WaitGroup
 
@@ -24,4 +24,25 @@ func TestGoroutine(t *testing.T) {
 	}
 	wg.Wait()
 	t.Log("testing")
+}
+
+// sync.Mutex用来做共享控制，实现计数器
+func TestMutex(t *testing.T) {
+	var mut sync.Mutex
+	var wg sync.WaitGroup
+
+	var counter = 0
+	for i := 0; i < 5000; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+
+			defer mut.Unlock()
+			mut.Lock()
+
+			counter++
+		}()
+	}
+	wg.Wait()
+	t.Logf("counter: %d", counter)
 }
