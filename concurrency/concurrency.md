@@ -25,7 +25,8 @@ sync.Mutex
 sync.RWLock
 ```
 
-类似Java
+类似Java:
+
 ```java
 Lock lock = ...;
 lock.lock();
@@ -40,4 +41,28 @@ try{
 ```
 
 ## 3. CSP并发机制
+
+Java中的Future：
+
+```java
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+
+public class Main {
+
+    private static FutureTask<String> service() {
+        FutureTask<String> futureTask = new FutureTask<>(() -> "Do something");
+        new Thread(futureTask).start();
+        return futureTask;
+    }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        FutureTask<String> task = service();
+        System.out.println("hello");
+        System.out.println(task.get());
+    }
+}
+```
+
+
 

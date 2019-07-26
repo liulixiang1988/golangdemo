@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"sync"
 	"testing"
+	"time"
 )
 
 // TestGoroutine goroutine与waitgroup
@@ -45,4 +46,27 @@ func TestMutex(t *testing.T) {
 	}
 	wg.Wait()
 	t.Logf("counter: %d", counter)
+}
+
+// ------------CSP------------
+func otherService() {
+	fmt.Println("other service start")
+	time.Sleep(1 * time.Second)
+	fmt.Println("other service end")
+}
+
+func asyncService() chan string {
+	retCh := make(chan string)
+	go func() {
+		fmt.Println("async service start")
+		retCh <- "ok"
+		fmt.Println("async service end")
+	}()
+	return retCh
+}
+
+func TestAsyncService(t *testing.T) {
+	retch := asyncService()
+	otherService()
+	fmt.Println(<-retch)
 }
