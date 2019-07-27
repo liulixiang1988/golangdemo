@@ -66,8 +66,18 @@ public class Main {
 
 ## 4. 多路选择与超时
 
+gocurr2_test.go
+
 ## 5. channel关闭和广播
+
+gocurr3_test.go
 
 在多个函数内传递sync.WaitGroup时需要用指针，否则会引发deadlock panic
 
+一般由数据生产者关闭channel
 
+`close(chan)`会被所有数据接受者接收
+
+## 6. 任务取消
+
+gocurr4_test.go
