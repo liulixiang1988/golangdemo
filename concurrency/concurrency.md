@@ -66,5 +66,8 @@ public class Main {
 
 ## 4. 多路选择与超时
 
+## 5. channel关闭和广播
+
+在多个函数内传递sync.WaitGroup时需要用指针，否则会引发deadlock panic
 
 
